@@ -1,0 +1,6 @@
+---
+name: test-ulimit
+templates:
+  test: bin/test
+packages: []
+properties: ~

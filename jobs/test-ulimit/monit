@@ -1,0 +1,5 @@
+check process test
+  with pidfile /var/vcap/sys/run/test-ulimit/test.pid
+  start program "/var/vcap/jobs/test-ulimit/bin/test start"
+  stop program "/var/vcap/jobs/test-ulimit/bin/test stop"
+  group vcap

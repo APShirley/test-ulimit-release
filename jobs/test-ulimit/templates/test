@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -exo pipefail
+pid_of_sleep=-1
+log_dir=/var/vcap/sys/log/test-ulimit
+mkdir -p $log_dir
+chown vcap:vcap -R $log_dir
+
+case $1 in
+
+  start)
+    ulimit -n 3000
+
+    echo "behold my limits" >> $log_dir/combined.log
+    cat /proc/$$/limits >> $log_dir/combined.log
+
+    echo "sleeping now with ulimit 5" >> $log_dir/combined.log
+    su - vcap -c -o pipefail "sleep 600 &"
+    echo $(pgrep sleep) > /var/vcap/sys/run/test-ulimit/test.pid
+    pid_of_sleep=$(cat /var/vcap/sys/run/test-ulimit/test.pid)
+
+    echo "behold the limits of my children" >> $log_dir/combined.log
+    cat /proc/$pid_of_sleep/limits >> $log_dir/combined.log
+
+    ;;
+
+  stop)
+
+    echo "stopping" >> $log_dir/combined.log
+    kill $(pgrep sleep)
+    ;;
+
+  *)
+    echo "Usage: test {start|stop}"
+    ;;
+
+esac
