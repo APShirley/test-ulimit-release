@@ -15,7 +15,7 @@ case $1 in
     cat /proc/$$/limits >> $log_dir/combined.log
 
     echo "sleeping now with ulimit 5" >> $log_dir/combined.log
-    su - vcap -c -o pipefail "sleep 600 &"
+    chpst -u vcap:vcap bash -c  "sleep 600 &"
     echo $(pgrep sleep) > /var/vcap/sys/run/test-ulimit/test.pid
     pid_of_sleep=$(cat /var/vcap/sys/run/test-ulimit/test.pid)
 
