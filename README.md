@@ -6,3 +6,5 @@ The issue is due to a change in xenial to `/etc/pam.d/su` which can be seen in [
 ```
 
 Each branch shows a different version of the bosh release: deploy on `trusty` to see original behavior, deploy on `xenial-broken` to see the breaking change or deploy on `xenial-fixed` to see the fix working. You can see how the limits change on the vm: `less /var/vcap/sys/log/test-ulimit/combined.log`
+
+Further reading on why `su` is not how you should drop privileges http://jdebp.eu./FGA/dont-abuse-su-for-dropping-privileges.html
